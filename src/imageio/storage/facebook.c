@@ -1107,7 +1107,10 @@ void gui_init(struct dt_imageio_module_storage_t *self)
 /* destroy resources */
 void gui_cleanup(struct dt_imageio_module_storage_t *self)
 {
-  free(self->gui_data);
+  dt_storage_facebook_gui_data_t *ui = self->gui_data;
+  if (ui->facebook_api != NULL)
+    fb_api_destroy(ui->facebook_api);
+  g_free(self->gui_data);
 }
 
 /* reset options to defaults */
@@ -1225,9 +1228,11 @@ cleanup:
 
 int finalize_store(struct dt_imageio_module_storage_t *self, dt_imageio_module_data_t *data)
 {
+  gdk_threads_enter();
   dt_storage_facebook_gui_data_t *ui = (dt_storage_facebook_gui_data_t*)self->gui_data;
   ui_reset_albums_creation(ui);
   ui_refresh_albums(ui);
+  gdk_threads_leave();
   return 1;
 }
 
