@@ -46,6 +46,7 @@ FILE(GLOB SOURCE_FILES
   "common/dynload.c"
   "common/dlopencl.c"
   "common/ratings.c"
+  "common/oauth1.c"
   "control/control.c"
   "control/jobs/control_jobs.c"
   "control/jobs/develop_jobs.c"
@@ -159,16 +160,6 @@ if(USE_NLS)
     message(STATUS "Internationalization: Disabled (libintl not found)")
   endif()
 endif(USE_NLS)
-
-if(USE_OAUTH)
-  find_package(OAUTH)
-  if(OAUTH_FOUND)
-    include_directories(${OAUTH_INCLUDE_DIRS} )
-    set(SOURCES ${SOURCES} common/oauth1.c)
-    list(APPEND LIBS ${OAUTH_LIBRARIES})
-    add_definitions(${OAUTH_DEFINITIONS})
-  endif(OAUTH_FOUND)
-endif(USE_OAUTH)
 
 if(USE_FLICKR)
   find_package(FLICKCURL)
